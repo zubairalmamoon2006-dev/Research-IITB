@@ -1,5 +1,4 @@
 import { PageIntro } from '../components/ui';
-import { asset } from '../lib/paths';
 
 const LI_ICON = (
   <svg width="14" height="14" viewBox="0 0 24 24">
@@ -15,42 +14,42 @@ const MAIL_ICON = (
 
 const HEADS = [
   {
-    name: 'Rakshana Sundaram', role: 'Head', img: asset('/team/Rakshana.jpg'),
+    name: 'Rakshana Sundaram', role: 'Head', img: `${import.meta.env.BASE_URL}team/Rakshana.jpg`,
     li: 'https://linkedin.com/in/rakshana-sundaram05', mail: '24b2428@iitb.ac.in'
   },
   {
-    name: 'Shrestha Khatri', role: 'Head', img: asset('/team/Shrestha.jpg'),
+    name: 'Shrestha Khatri', role: 'Head', img: `${import.meta.env.BASE_URL}team/Shrestha.jpg`,
     li: 'https://linkedin.com/in/shrestha-khatri-57a887315', mail: '24b0033@iitb.ac.in'
   }
 ];
 
 const MEMBERS = [
   {
-    name: 'Aryan Chauhan', role: 'Data Analyst', img: asset('/team/Aryan.jpg'),
+    name: 'Aryan Chauhan', role: 'Data Analyst', img: `${import.meta.env.BASE_URL}team/Aryan.jpg`,
     li: 'https://www.linkedin.com/in/aryan-chauhan-08763439b/', mail: '25b2494@iitb.ac.in'
   },
   {
-    name: 'Ayush Deshmukh', role: 'Data Analyst', img: asset('/team/Ayush.jpg'),
+    name: 'Ayush Deshmukh', role: 'Data Analyst', img: `${import.meta.env.BASE_URL}team/Ayush.jpg`,
     li: 'https://linkedin.com/in/ayush-deshmukh-bb6a8a379', mail: '25b2495@iitb.ac.in'
   },
   {
-    name: 'Vedant Iyengar', role: 'Data Analyst', img: asset('/team/Vedant.jpg'),
+    name: 'Vedant Iyengar', role: 'Data Analyst', img: `${import.meta.env.BASE_URL}team/Vedant.jpg`,
     li: 'https://linkedin.com/in/vedant-iyengar-046781397', mail: '25b2141@iitb.ac.in'
   },
   {
-    name: 'Harsh Prajapat', role: 'Data Analyst', img: asset('/team/Harsh.jpg'),
+    name: 'Harsh Prajapat', role: 'Data Analyst', img: `${import.meta.env.BASE_URL}team/Harsh.jpg`,
     li: 'https://linkedin.com/in/harsh-prajapat-a39341386', mail: '25b0407@iitb.ac.in'
   },
   {
-    name: 'Ummehani Chakkiwala', role: 'Data Analyst', img: asset('/team/Ummehani.jpg'), top: true,
+    name: 'Ummehani Chakkiwala', role: 'Data Analyst', img: `${import.meta.env.BASE_URL}team/Ummehani.jpg`, top: true,
     li: 'https://linkedin.com/in/ummehani-chakkiwala-502b1136b', mail: '25b4510@iitb.ac.in'
   },
   {
-    name: 'Vishakha Arekar', role: 'Data Analyst', img: asset('/team/Vishakha.jpg'),
+    name: 'Vishakha Arekar', role: 'Data Analyst', img: `${import.meta.env.BASE_URL}team/Vishakha.jpg`,
     li: 'https://linkedin.com/in/vishakha-arekar-8b5a53372', mail: '25b0042o@iitb.ac.in'
   },
   {
-    name: 'Zubair Al-Mamoon', role: 'Data Analyst', img: asset('/team/Zubair.jpg'),
+    name: 'Zubair Al-Mamoon', role: 'Data Analyst', img: `${import.meta.env.BASE_URL}team/Zubair.jpg`,
     li: 'https://linkedin.com/in/zubair-al-mamoon-493353367', mail: '25b0742@iitb.ac.in'
   }
 ];

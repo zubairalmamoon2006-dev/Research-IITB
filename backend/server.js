@@ -147,6 +147,7 @@ app.post('/api/report/reset', requireAdmin, async (req, res) => {
 // Serve frontend build if present
 const frontendBuild = path.join(__dirname, '..', 'frontend', 'dist');
 if (fs.existsSync(frontendBuild)) {
+  app.use('/Research-IITB', express.static(frontendBuild));
   app.use(express.static(frontendBuild));
   app.get('*', (req, res) => {
     res.sendFile(path.join(frontendBuild, 'index.html'));

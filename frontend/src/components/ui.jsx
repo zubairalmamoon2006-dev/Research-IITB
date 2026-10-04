@@ -1,106 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-
-const reducedMotion = () =>
-  typeof window !== 'undefined' &&
-  typeof window.matchMedia === 'function' &&
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-// Splits "1,142" / "2nd" / "134th" / "909,949" / "12.4%" into the number and
-// whatever surrounds it, so the value can be counted up in place.
-function splitNumber(value) {
-  if (typeof value === 'number') {
-    return {
-      num: value,
-      decimals: Number.isInteger(value) ? 0 : 1,
-      grouped: Math.abs(value) >= 1000,
-      pre: '',
-      post: ''
-    };
-  }
-  const text = String(value ?? '');
-  const m = text.match(/^(.*?)(-?[\d][\d,]*(?:\.\d+)?)(.*)$/);
-  if (!m) return null;
-  const digits = m[2].replace(/,/g, '');
-  const num = Number(digits);
-  if (!Number.isFinite(num)) return null;
-  const dot = digits.indexOf('.');
-  return {
-    num,
-    decimals: dot === -1 ? 0 : digits.length - dot - 1,
-    grouped: m[2].includes(','),
-    pre: m[1],
-    post: m[3]
-  };
-}
-
-function formatCount(n, parts) {
-  const out = parts.decimals
-    ? n.toFixed(parts.decimals)
-    : parts.grouped
-      ? Math.round(n).toLocaleString('en-US')
-      : String(Math.round(n));
-  return parts.pre + out + parts.post;
-}
-
-export function AnimatedValue({ value, duration = 1400 }) {
-  const ref = useRef(null);
-  const parts = useMemo(() => splitNumber(value), [value]);
-  const finalText = parts ? formatCount(parts.num, parts) : String(value ?? '');
-  const [text, setText] = useState(() =>
-    parts && !reducedMotion() ? formatCount(0, parts) : finalText
-  );
-
-  useEffect(() => {
-    if (!parts || reducedMotion()) {
-      setText(finalText);
-      return undefined;
-    }
-    const el = ref.current;
-    let raf = 0;
-    let timer = 0;
-    const start = () => {
-      const t0 = performance.now();
-      const tick = (t) => {
-        const p = Math.min(1, (t - t0) / duration);
-        const eased = 1 - Math.pow(1 - p, 3);
-        setText(formatCount(parts.num * eased, parts));
-        if (p < 1) raf = requestAnimationFrame(tick);
-      };
-      raf = requestAnimationFrame(tick);
-    };
-    if (!el || typeof IntersectionObserver === 'undefined') {
-      start();
-      return () => cancelAnimationFrame(raf);
-    }
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          io.disconnect();
-          clearTimeout(timer);
-          start();
-        }
-      },
-      { threshold: 0.25 }
-    );
-    io.observe(el);
-    // safety net so a value that never intersects still lands on the real number
-    timer = setTimeout(() => {
-      io.disconnect();
-      start();
-    }, 600);
-    return () => {
-      io.disconnect();
-      clearTimeout(timer);
-      cancelAnimationFrame(raf);
-    };
-  }, [parts, finalText, duration]);
-
-  return (
-    <span ref={ref} className="animated-value" data-count={finalText} aria-label={finalText}>
-      {text}
-    </span>
-  );
-}
+import { useState } from 'react';
 
 export function PageIntro({ title, accent, eyebrow = 'IIT Bombay · Seven years of research', eyebrowClass = '', children }) {
   return (
@@ -160,7 +58,7 @@ export function Callout({ children }) {
 export function KPI({ value, label }) {
   return (
     <div className="kpi">
-      <div className="value"><AnimatedValue value={value} /></div>
+      <div className="value">{value}</div>
       <div className="label">{label}</div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useReport } from '../context/ReportContext';
-import { Section, Card, Findings, Callout, fmt, PageIntro, DataDetails, AnimatedValue } from '../components/ui';
+import { Section, Card, Findings, Callout, fmt, PageIntro, DataDetails } from '../components/ui';
 import { BarChart, GroupedBarChart, PieChart, MultiLineChart, LorenzCurve, ComboChart, CH } from '../components/charts';
 import YearFilter from '../components/YearFilter';
 
@@ -38,19 +38,15 @@ export default function Publications() {
 
       <div className="kpi-grid">
         <div className="kpi">
-          <div className="value"><AnimatedValue value={fmt(totals.total_publications)} /></div>
+          <div className="value">{fmt(totals.total_publications)}</div>
           <div className="label">Total Publications</div>
         </div>
         <div className="kpi">
-          <div className="value"><AnimatedValue value={fmt(totals.total_patents)} /></div>
+          <div className="value">{fmt(totals.total_patents)}</div>
           <div className="label">Total Patents</div>
         </div>
         <div className="kpi">
-          <div className="value">
-            <AnimatedValue
-              value={report.general_statistics?.find((s) => s.metric === 'Citations')?.value?.toLocaleString?.() || '909,949'}
-            />
-          </div>
+          <div className="value">{report.general_statistics?.find((s) => s.metric === 'Citations')?.value?.toLocaleString?.() || '909,949'}</div>
           <div className="label">Total Citations</div>
         </div>
       </div>

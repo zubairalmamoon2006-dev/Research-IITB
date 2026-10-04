@@ -1,7 +1,6 @@
 import { Routes, Route, NavLink, Link, useLocation } from 'react-router-dom';
-import { useState, useEffect, useLayoutEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useReport } from './context/ReportContext';
-import { asset } from './lib/paths';
 import { setChartTheme } from './components/charts';
 import SearchOverlay from './components/SearchOverlay';
 import Dashboard from './pages/Dashboard';
@@ -71,38 +70,6 @@ export default function App() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  // Fade each page block in the first time it scrolls into view.
-  useLayoutEffect(() => {
-    const root = document.querySelector('main.content');
-    if (!root || typeof IntersectionObserver === 'undefined') return undefined;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add('in');
-            io.unobserve(e.target);
-          }
-        });
-      },
-      { rootMargin: '0px 0px -40px 0px' }
-    );
-    const scan = () => {
-      Array.from(root.children).forEach((el) => {
-        if (!el.classList.contains('reveal')) {
-          el.classList.add('reveal');
-          io.observe(el);
-        }
-      });
-    };
-    scan();
-    const mo = new MutationObserver(scan);
-    mo.observe(root, { childList: true });
-    return () => {
-      io.disconnect();
-      mo.disconnect();
-    };
-  }, [location.pathname, loading, error]);
-
   if (loading) {
     return (
       <div className="boot">
@@ -125,8 +92,12 @@ export default function App() {
     <div className="layout">
       <header className="site-header">
         <Link to="/" className="brand" onClick={() => setOpen(false)} aria-label="RESEARCH @ IITB home">
-          <img className="brand-logo" src={asset('/ugac-logo.svg')} alt="UGAC" />
+          <img className="brand-logo" src={`${import.meta.env.BASE_URL}ugac-logo.svg`} alt="UGAC" />
         </Link>
+
+        <button className="hamburger" onClick={() => setOpen(!open)} aria-label="Menu">
+          ☰
+        </button>
 
         <nav className={`site-nav ${open ? 'open' : ''}`}>
           {NAV.map((n) => (
@@ -146,13 +117,10 @@ export default function App() {
 
         <div className="header-team">
           <span className="header-team-name">DAV Team</span>
-          <img className="header-logo" src={asset('/header-logo.png')} alt="DAV" />
+          <img className="header-logo" src={`${import.meta.env.BASE_URL}header-logo.png`} alt="DAV" />
         </div>
 
-        <div className="header-actions">
-          <button className="hamburger" onClick={() => setOpen(!open)} aria-label="Menu">
-            ☰
-          </button>
+        <div className="header-tools">
           <button
             type="button"
             className="icon-btn"
@@ -162,26 +130,24 @@ export default function App() {
           >
             ⌕
           </button>
-          <div className="header-tools">
-            <button
-              type="button"
-              className="icon-btn"
-              title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
-              aria-label="Toggle dark mode"
-              onClick={() => setDark((d) => !d)}
-            >
-              {dark ? '☀️' : '🌙'}
-            </button>
-            <button
-              type="button"
-              className="icon-btn"
-              title="Print or save this page as PDF"
-              aria-label="Print"
-              onClick={() => window.print()}
-            >
-              ⎙
-            </button>
-          </div>
+          <button
+            type="button"
+            className="icon-btn"
+            title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+            aria-label="Toggle dark mode"
+            onClick={() => setDark((d) => !d)}
+          >
+            {dark ? '☀️' : '🌙'}
+          </button>
+          <button
+            type="button"
+            className="icon-btn"
+            title="Print or save this page as PDF"
+            aria-label="Print"
+            onClick={() => window.print()}
+          >
+            ⎙
+          </button>
         </div>
 
         {isAdmin && (

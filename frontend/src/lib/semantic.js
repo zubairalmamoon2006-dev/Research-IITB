@@ -3,10 +3,8 @@
 // Degrades to keyword-only search whenever the model, the network, or the
 // embeddings are unavailable — keyword search never depends on this module.
 
-import { asset } from './paths';
-
 const MODEL = 'Xenova/all-MiniLM-L6-v2';
-const EMB_URL = asset('/data/professor-embeddings.json');
+const EMB_URL = '/data/professor-embeddings.json';
 
 export function embedText(p) {
   return [p.Name, p.Department, p.Topic, p.Research_Interest].filter(Boolean).join(' | ');

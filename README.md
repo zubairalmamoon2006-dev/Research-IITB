@@ -95,28 +95,6 @@ in order: the `ADMIN_TOKEN` environment variable → `backend/.env` (`ADMIN_TOKE
 
 Data lives in `backend/data/report.json` (single source of truth).
 
-## Deploying under a sub-path
-
-When the host serves several apps from one domain, build with a base path so routing,
-images and the search embeddings resolve under `https://host/<base>/`:
-
-```bash
-# Linux / macOS
-VITE_BASE=/Research-IITB/ npm run build
-```
-```powershell
-# Windows PowerShell
-$env:VITE_BASE='/Research-IITB/'; npm run build
-```
-
-- `frontend/vite.config.js` reads `VITE_BASE` and falls back to `/`, so local builds and
-  local development behave exactly as before.
-- The router is mounted with `basename={import.meta.env.BASE_URL}` (`frontend/src/main.jsx`)
-  and every public asset goes through `asset()` from `frontend/src/lib/paths.js`.
-- API calls default to `/api` at the site root. Publish the API under the same sub-path by
-  setting `VITE_API_BASE=/Research-IITB/api` when building.
-- Keep the server copy free of local edits (`git status` clean) so `git pull` stays conflict-free.
-
 ## Stack
 
 - **Frontend:** React 18 + Vite + Chart.js (react-chartjs-2) + React Router

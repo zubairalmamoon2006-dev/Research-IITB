@@ -13,7 +13,6 @@ import {
   Filler,
   Title
 } from 'chart.js';
-import { useEffect, useRef, useState } from 'react';
 import { Bar, Line, Pie, Doughnut, Radar } from 'react-chartjs-2';
 
 ChartJS.register(
@@ -99,7 +98,6 @@ const pickHandlers = (labels, onPick) => ({
 const baseOptions = {
   responsive: true,
   maintainAspectRatio: false,
-  animation: { duration: 1100, easing: 'easeOutQuart' },
   plugins: {
     legend: { position: 'bottom', labels: { boxWidth: 14, padding: 16, font: { size: 12 } } },
     tooltip: { backgroundColor: '#16203a', padding: 10, cornerRadius: 8 }
@@ -111,42 +109,17 @@ const num = (v) =>
     ? v.toLocaleString('en-US')
     : v;
 
-export function ChartBox({ height = 340, wide = false, children }) {
-  const ref = useRef(null);
-  // Mount the chart the first time it scrolls near the viewport, so Chart.js runs its
-  // grow-from-zero animation where the visitor can actually see it.
-  const [visible, setVisible] = useState(() => typeof IntersectionObserver === 'undefined');
-
-  useEffect(() => {
-    if (visible) return undefined;
-    const el = ref.current;
-    if (!el) {
-      setVisible(true);
-      return undefined;
-    }
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          io.disconnect();
-          setVisible(true);
-        }
-      },
-      { rootMargin: '140px 0px', threshold: 0 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [visible]);
-
+export function ChartBox({ height = 340, children }) {
   return (
-    <div ref={ref} className={`chart-box${wide ? ' chart-box-wide' : ''}`} style={{ height }}>
-      <div className="chart-inner">{visible ? children : null}</div>
+    <div className="chart-box" style={{ height }}>
+      {children}
     </div>
   );
 }
 
 export function BarChart({ labels, data, label = 'Value', color = PALETTE[0], horizontal = false, height = 340, colors, onPick }) {
   return (
-    <ChartBox height={height} wide={!horizontal}>
+    <ChartBox height={height}>
       <Bar
         options={{
           ...baseOptions,
@@ -226,7 +199,7 @@ export function GroupedBarChart({ labels, datasets, height = 360, horizontal = f
       }
     };
   return (
-    <ChartBox height={height} wide>
+    <ChartBox height={height}>
       <Bar
         options={opts}
         data={{
@@ -244,7 +217,7 @@ export function GroupedBarChart({ labels, datasets, height = 360, horizontal = f
 
 export function MultiLineChart({ labels, datasets, height = 380, yPercent = false, fill = false, onPick, trendFlags: flags = false, flagThreshold = 0.15 }) {
   return (
-    <ChartBox height={height} wide>
+    <ChartBox height={height}>
       <Line
         options={{
           ...baseOptions,
@@ -284,7 +257,7 @@ export function MultiLineChart({ labels, datasets, height = 380, yPercent = fals
 
 export function ComboChart({ labels, barData, lineData, barLabel = 'Publications', lineLabel = 'h-index', height = 380, barColor = '#0d86a6', lineColor = CH.navy, onPick }) {
   return (
-    <ChartBox height={height} wide>
+    <ChartBox height={height}>
       <Bar
         options={{
           ...baseOptions,
@@ -356,7 +329,7 @@ export function PieChart({ labels, data, height = 340, doughnut = true, colors, 
 
 export function RadarChart({ labels, data, label = 'Value', height = 380, color = PALETTE[0] }) {
   return (
-    <ChartBox height={height} wide>
+    <ChartBox height={height}>
       <Radar
         options={{
           ...baseOptions,

@@ -173,7 +173,6 @@ a { color: var(--teal); }
 .card-note { font-size: 13px; color: var(--ink-soft); margin-bottom: 14px; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.grid-2 > *, .grid-3 > * { min-width: 0; }
 
 /* ---------- KPI ---------- */
 .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 16px; margin-bottom: 34px; }
@@ -221,19 +220,6 @@ a { color: var(--teal); }
 
 /* ---------- Chart box ---------- */
 .chart-box { position: relative; width: 100%; }
-.chart-inner { position: relative; width: 100%; height: 100%; }
-.chart-box canvas { max-width: 100%; }
-
-/* Category-heavy charts keep a readable width on narrow screens and scroll sideways
-   inside their card instead of squeezing the axis labels. */
-@media (max-width: 860px) {
-  .chart-box-wide { overflow-x: auto; overflow-y: hidden; }
-  .chart-box-wide .chart-inner { min-width: 640px; }
-  .chart-box-wide::-webkit-scrollbar { height: 8px; }
-  .chart-box-wide::-webkit-scrollbar-track { background: transparent; }
-  .chart-box-wide::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
-  .chart-box-wide::-webkit-scrollbar-thumb:hover { background: var(--teal); }
-}
 
 /* ---------- Table ---------- */
 .table-wrap { overflow-x: auto; }
@@ -488,11 +474,10 @@ table.data tr:hover td { background: #f7faf9; }
   .page-intro h2 { font-size: 30px; }
   .eyebrow-hero { font-size: 34px; }
   .search-bar { grid-template-columns: 1fr; }
-  .header-tools { order: 5; }
+  .header-tools { order: 11; }
 }
 
 /* ---------- Header tools ---------- */
-.header-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 .header-tools { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 .icon-btn {
   width: 36px; height: 36px;
@@ -503,40 +488,6 @@ table.data tr:hover td { background: #f7faf9; }
   transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
 .icon-btn:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-soft); }
-
-/* ---------- Compact header (mobile / tablet) ----------
-   Row 1: UGAC logo on the left edge with "DAV Team" + DAV logo on the right.
-   Row 2: menu + search under the UGAC logo, theme + print under the DAV logo. */
-@media (max-width: 1000px) {
-  .site-header { padding: 10px 10px; gap: 10px 6px; }
-  .brand { margin-right: auto; }
-  .brand-logo { height: 30px; transform: translate(-5px, -4px); }
-  .header-team { gap: 6px; }
-  .header-team-name { font-size: 12px; }
-  .header-logo { height: 30px; }
-  .header-actions {
-    display: flex; width: 100%;
-    justify-content: flex-start; align-items: center; gap: 6px;
-  }
-  .header-tools { margin-left: auto; gap: 5px; }
-  .hamburger { padding: 5px 9px; font-size: 16px; border-radius: 7px; }
-  .icon-btn { width: 32px; height: 32px; font-size: 15px; border-radius: 7px; }
-  .header-cta { display: none; }
-}
-@media (max-width: 340px) {
-  .header-team-name { display: none; }
-}
-
-/* ---------- Mobile footer ----------
-   Stack the two footer lines: "Made with ..." first, the live-data note
-   underneath it, both centred. */
-@media (max-width: 640px) {
-  .site-footer { grid-template-columns: 1fr; gap: 5px; }
-  .site-footer > span:first-child { grid-column: 1; }
-  .site-footer > span:last-child {
-    grid-column: 1; justify-self: center; text-align: center; font-size: 12px;
-  }
-}
 
 /* ---------- Search input / history ---------- */
 .search-input-wrap { position: relative; }
@@ -809,20 +760,8 @@ body.dark .toast.ok { background: #123038; color: #9fdcef; border-color: #1d5f74
 body.dark .toast.err { background: #3a1a1f; color: #ff9aa5; border-color: #6b2730; }
 body.dark .header-cta { color: #fff; }
 
-/* ---------- Scroll reveal (page blocks fade up as they enter view) ---------- */
-.reveal {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
-}
-.reveal.in { opacity: 1; transform: none; }
-@media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
-}
-
 /* ---------- Print ---------- */
 @media print {
-  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
   .site-header,
   .site-footer,
   .pager,
