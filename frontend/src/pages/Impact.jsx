@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useReport } from '../context/ReportContext';
 import { Section, Card, Findings, Callout, fmt, PageIntro } from '../components/ui';
-import { GroupedBarChart, BarChart, ComboChart, CH } from '../components/charts';
+import { BarChart, ComboChart, CH } from '../components/charts';
 
 export default function Impact() {
   const { report } = useReport();
@@ -22,17 +22,26 @@ export default function Impact() {
       </PageIntro>
 
       <Section title="Research Impact Across Departments" note={`${impact.context} - click a bar to open that department's page.`}>
-        <Card title={impact.title || 'Publications vs Crossref citations by department'}>
-          <GroupedBarChart
+        <Card title="Publications by department">
+          <BarChart
             horizontal
-            log
-            height={520}
+            height={500}
+            label="Publications"
+            color="#0d86a6"
             onPick={goDept}
             labels={impact.data_points?.map((d) => d.department) || []}
-            datasets={[
-              { label: 'Publications', data: impact.data_points?.map((d) => d.publications) || [], color: '#0d86a6' },
-              { label: 'Crossref Citations', data: impact.data_points?.map((d) => d.citations) || [], color: CH.navy }
-            ]}
+            data={impact.data_points?.map((d) => d.publications) || []}
+          />
+        </Card>
+        <Card title="Crossref citations by department">
+          <BarChart
+            horizontal
+            height={500}
+            label="Crossref Citations"
+            color={CH.navy}
+            onPick={goDept}
+            labels={impact.data_points?.map((d) => d.department) || []}
+            data={impact.data_points?.map((d) => d.citations) || []}
           />
         </Card>
       </Section>
@@ -48,7 +57,8 @@ export default function Impact() {
               barData={faculty.data_points?.map((d) => d.average_citations_per_faculty) || []}
               lineData={faculty.data_points?.map((d) => d.number_of_faculty_x100 * 100) || []}
               barLabel="Avg citations / faculty"
-              lineLabel="Faculty count (×100)"
+              lineLabel="Faculty count"
+              secondAsBar
               onPick={goDept}
             />
           </Card>

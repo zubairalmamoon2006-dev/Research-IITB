@@ -273,6 +273,20 @@ table.data tr:hover td { background: #f7faf9; }
 }
 .chip:hover { border-color: var(--teal); color: var(--teal); }
 
+/* Home "Research at a Glance": chips are a visual overview only, not links */
+.glance-note { margin: 14px 0 0; line-height: 1.55; }
+.glance-note strong { color: var(--ink); }
+
+/* ---------- Chart filter chips (H-index comparison) ---------- */
+.chart-filters { display: grid; gap: 10px; margin-bottom: 16px; }
+.chart-filters .filter-row { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.chart-filters .filter-label {
+  font-size: 11.5px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--ink-soft); min-width: 104px;
+}
+.chart-filters .chips { margin-top: 0; }
+.chart-empty { color: var(--ink-soft); font-size: 13.5px; text-align: center; padding: 32px 0; }
+
 /* ---------- Tabs ---------- */
 .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
 .tab {
@@ -503,6 +517,12 @@ table.data tr:hover td { background: #f7faf9; }
   transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
 .icon-btn:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-soft); }
+/* Download button while the report PDF is being assembled */
+.icon-btn.busy {
+  cursor: progress; animation: download-pulse 0.9s ease-in-out infinite;
+  border-color: var(--line); color: var(--ink-soft); background: transparent;
+}
+@keyframes download-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
 
 /* ---------- Compact header (mobile / tablet) ----------
    Row 1: UGAC logo on the left edge with "DAV Team" + DAV logo on the right.

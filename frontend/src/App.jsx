@@ -2,6 +2,7 @@ import { Routes, Route, NavLink, Link, useLocation } from 'react-router-dom';
 import { useState, useEffect, useLayoutEffect } from 'react';
 import { useReport } from './context/ReportContext';
 import { asset } from './lib/paths';
+import { downloadReportPdf } from './lib/pdfReport';
 import { setChartTheme } from './components/charts';
 import SearchOverlay from './components/SearchOverlay';
 import Dashboard from './pages/Dashboard';
@@ -32,9 +33,10 @@ const NAV = [
 ];
 
 export default function App() {
-  const { loading, error, reload, isAdmin } = useReport();
+  const { loading, error, reload, isAdmin, report } = useReport();
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [exporting, setExporting] = useState(false);
   const [dark, setDark] = useState(() => {
     try {
       return localStorage.getItem('iitb-theme') === 'dark';
@@ -44,6 +46,21 @@ export default function App() {
   });
   const [, setThemeTick] = useState(0);
   const location = useLocation();
+
+  // Builds the ready-made report PDF (cover, contents, every section) and
+  // hands it to the browser as a download instead of printing the website.
+  const onDownload = async () => {
+    if (exporting || !report) return;
+    setExporting(true);
+    try {
+      await new Promise((r) => setTimeout(r, 40)); // let the busy state paint
+      downloadReportPdf(report);
+    } catch (err) {
+      console.error('PDF export failed:', err);
+    } finally {
+      setExporting(false);
+    }
+  };
 
   useEffect(() => {
     document.body.classList.toggle('dark', dark);
@@ -174,12 +191,13 @@ export default function App() {
             </button>
             <button
               type="button"
-              className="icon-btn"
-              title="Print or save this page as PDF"
-              aria-label="Print"
-              onClick={() => window.print()}
+              className={`icon-btn${exporting ? ' busy' : ''}`}
+              title={exporting ? 'Preparing your PDF…' : 'Download the full report as PDF'}
+              aria-label="Download report"
+              onClick={onDownload}
+              disabled={exporting}
             >
-              ⎙
+              {exporting ? '◌' : '⬇︎'}
             </button>
           </div>
         </div>

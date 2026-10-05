@@ -153,7 +153,10 @@ export default function Publications() {
 
       <Section title="Concentration of Research Output Among Authors" note={lorenz.context}>
         <div className="grid-2">
-          <Card title="Lorenz curve">
+          <Card
+            title="How evenly are papers spread across authors?"
+            note="Lorenz curve: authors are lined up from fewest to most papers, so the teal curve shows how much of all output that share of authors has written. The dashed diagonal is what equal output would look like - the more the curve sags below it, the more concentrated the output. Gini 0.57: 0 = everyone publishes the same, 1 = one author publishes everything."
+          >
             <LorenzCurve
               data={lorenz.data_points || []}
               equalityLine={lorenz.line_of_perfect_equality_points || []}

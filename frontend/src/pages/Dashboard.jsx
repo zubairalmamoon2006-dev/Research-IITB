@@ -78,6 +78,12 @@ export default function Dashboard() {
       <Section title="Research at a Glance" note="Named research areas and centres covered by this report.">
         <Card>
           <Chips items={areas} />
+          <p className="card-note glance-note">
+            <strong>Note:</strong> these tags are not links. They are a quick visual
+            of how much ground this portal covers, from core departments and centres
+            to interdisciplinary programmes. To actually explore the data, use the
+            section links in <em>Explore the Portal</em> below or the menu at the top.
+          </p>
         </Card>
       </Section>
 
