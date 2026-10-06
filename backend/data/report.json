@@ -549,67 +549,82 @@
     ],
     "data_points": [
       {
-        "department": "Electrical Engg",
-        "qs_ranking": 50,
-        "h_index": 110
-      },
-      {
-        "department": "Physics",
-        "qs_ranking": 75,
-        "h_index": 178
-      },
-      {
-        "department": "Chemistry",
-        "qs_ranking": 80,
-        "h_index": 104
-      },
-      {
-        "department": "Mechanical Engg",
-        "qs_ranking": 69,
-        "h_index": 88
-      },
-      {
-        "department": "Chemical Engg",
-        "qs_ranking": 100,
-        "h_index": 89
-      },
-      {
-        "department": "Metallurgy & Materials",
-        "qs_ranking": 104,
-        "h_index": 85
+        "department": "Civil Engineering",
+        "qs_ranking": 42,
+        "h_index": 95
       },
       {
         "department": "Computer Science",
-        "qs_ranking": 76,
+        "qs_ranking": 44,
         "h_index": 46
       },
       {
-        "department": "Earth Sciences",
-        "qs_ranking": 171,
-        "h_index": 58
+        "department": "Electrical Engg",
+        "qs_ranking": 44,
+        "h_index": 110
       },
       {
-        "department": "Biosciences",
-        "qs_ranking": 325,
-        "h_index": 54
+        "department": "Chemical Engg",
+        "qs_ranking": 49,
+        "h_index": 89
+      },
+      {
+        "department": "Mechanical Engg",
+        "qs_ranking": 51,
+        "h_index": 88
+      },
+      {
+        "department": "Chemistry",
+        "qs_ranking": 78,
+        "h_index": 104
       },
       {
         "department": "Mathematics",
-        "qs_ranking": 129,
+        "qs_ranking": 84,
         "h_index": 22
+      },
+      {
+        "department": "Environmental Sciences",
+        "qs_ranking": 87,
+        "h_index": 70
+      },
+      {
+        "department": "Metallurgy & Materials",
+        "qs_ranking": 91,
+        "h_index": 85
+      },
+      {
+        "department": "Physics",
+        "qs_ranking": 111,
+        "h_index": 178
+      },
+      {
+        "department": "Earth Sciences",
+        "qs_ranking": 125,
+        "h_index": 58
+      },
+      {
+        "department": "Industrial Design Center",
+        "qs_ranking": 125,
+        "h_index": 18
+      },
+      {
+        "department": "Biosciences",
+        "qs_ranking": 275,
+        "h_index": 54
       }
     ],
-    "top_performer": "Electrical Engineering (best QS rank 50); Physics records the highest h-index (178)",
-    "correlation_coefficient": -0.432,
+    "top_performer": "Civil Engineering (best QS rank 42); Physics records the highest h-index (178)",
+    "correlation_coefficient": -0.428,
     "outliers": [
-      "Biosciences (QS rank 325 despite an h-index of 54)",
-      "Mathematics (h-index 22 despite a QS rank of 129)"
+      "Biosciences (QS rank 251-300 despite an h-index of 54)",
+      "Mathematics (h-index 22 despite a strong QS rank of 84)"
     ],
     "other_strong_performers": [
-      "Mechanical (69)",
-      "Computer Science (76)"
+      "Global Top 50: Civil (#42), Computer Science (#44), Electrical (#44), Chemical (#49)",
+      "Global Top 100: Mechanical (#51), Chemistry (#78), Mathematics (#84), Environmental (#87), Materials (#91)"
     ],
-    "context": "H-Index vs QS Rankings - h-index from IRINS (Crossref, Oct 2026); QS subject ranks from QS World University Rankings by Subject 2025 for Electrical Engg (50), Mechanical Engg (69), Chemical Engg (100) and Computer Science (76); QS subject ranks for Physics, Chemistry, Metallurgy & Materials, Earth Sciences, Biosciences and Mathematics were not obtainable from a published QS list and are unchanged legacy values"
+    "context": "H-Index vs QS Rankings - h-index from IRINS (Crossref, Oct 2026); QS subject ranks from QS World University Rankings by Subject 2026"
   },
   "publication_mix_composition": {
     "chart_type": "Bar Chart",
@@ -9509,8 +9524,8 @@
         "Designation": "Associate Professor",
         "Expert_ID": 158634,
         "Topic": "Environmental Engineering",
-        "Research_Interest": "",
-        "Department": "Environmental nanotechnology, Environmental quantum chemical modeling, Fate and transport of organic and emerging contaminants in the environment, Desalination and wastewater treatment by membranes, Desalination and wastewater treatment by membranes, Synergy of biological & physicochemical treatment processes, Physico-chemical & biological treatment processes, Analytical environmental chemistry",
+        "Research_Interest": "Environmental nanotechnology, Environmental quantum chemical modeling, Fate and transport of organic and emerging contaminants in the environment, Desalination and wastewater treatment by membranes, Synergy of biological & physicochemical treatment processes, Analytical environmental chemistry",
+        "Department": "Environmental Science and Engineering Department (ESED)",
         "Scopus Id": "56053335900",
         "Profile_URL": "https://vidwan.inflibnet.ac.in/profile/158634"
       },
@@ -9937,7 +9952,7 @@
         "Expert_ID": 349216,
         "Topic": "Education and Educational Research",
         "Research_Interest": "Working as Project Head for National Education Policy at Indian Institute of Technology Bombay. Social Scientist Reg. No. ICSSR-SM-2023-2393 (Govt of India, ICSSR ), done doctoral reseach in the field of Social Science Management. Have invented \"Formation Of Technical Language Encrypted Communication\" patent/invention is protected under International Classification G09, G09C and U.S. Class 434/159. Linguistic Scientist/Language Specialist Reg.No. NCS ID I18C59-1637334898766, (Govt of India). Pub",
-        "Department": "Social Science",
+        "Department": "Department of Humanities and Social Sciences",
         "Scopus Id": ""
       },
       {
@@ -10005,7 +10020,7 @@
         "Expert_ID": 563175,
         "Topic": "Organic Chemistry",
         "Research_Interest": "I am currently an Institute Postdoctoral Researcher at the IIT Bombay, India, where my research is dedicated to the innovative development of pyrrole-based ligands like BODIPY, 3-pyrrolyl BODIPY, Aza-BODIPY, porphyrinoids, and macrocyclic ligands. I focus on exploring their unique photophysical properties and leveraging these characteristics for sensing, light emission, and coordination chemistry applications. Previously, during my Ph.D. at the CSIR-IMMT and Utkal University, BBSR, India, I spec",
-        "Department": "Chemistry",
+        "Department": "Department of Chemistry",
         "Scopus Id": ""
       },
       {

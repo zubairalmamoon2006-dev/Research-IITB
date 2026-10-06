@@ -6,22 +6,38 @@ import { Section, Card, PageIntro, KPI, DataTable, fmt } from '../components/ui'
 const norm = (s) =>
   String(s ?? '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-const dkey = (s) => norm(s).replace(/department of|dept\.?|department/g, '').replace(/[^a-z0-9]/g, '');
+const dkey = (s) =>
+  norm(s)
+    .replace(/&/g, ' and ')
+    .replace(/\band\b/g, '')
+    .replace(/department of|dept\.?|department|centre of|centre for|center of|center for|school of/g, '')
+    .replace(/[^a-z0-9]/g, '');
 
 const ALIAS = {
   electricalengineering: ['ee', 'electricalengg', 'electrical'],
   mechanicalengineering: ['me', 'mechanicalengg', 'mechanical'],
   civilengineering: ['ce', 'civil'],
-  chemicalengineering: ['chemical'],
+  chemicalengineering: ['chemical', 'chemicalengg'],
   aerospaceengineering: ['ae', 'aerospace'],
-  computerscienceandengineering: ['cse', 'computerscience'],
-  earthsciences: ['es', 'earthscience'],
+  computerscienceengineering: ['cse', 'computerscience'],
+  earthsciences: ['es', 'earthscience', 'earthmarine', 'earthmarinesciences'],
   climatestudies: ['cl', 'climate'],
-  physics: ['ph'],
-  biosciencesbioengineering: ['biosciences'],
-  metallurgicalengineeringmaterialsscience: ['mems', 'metallurgy', 'metallurgymaterials'],
-  humanitiesandsocialsciences: ['hss'],
-  'energyscienceengineering': ['ese']
+  physics: ['ph', 'physicsastronomy'],
+  biosciencesbioengineering: ['biosciences', 'biologicalsciences', 'bsbe'],
+  metallurgicalengineeringmaterialsscience: ['mems', 'metallurgy', 'metallurgymaterials', 'metallurgicalmaterialsengg', 'materials', 'materialsscience', 'metallurgicalmaterials'],
+  humanitiessocialsciences: ['hss', 'humanities'],
+  energyscienceengineering: ['ese', 'energy', 'dese'],
+  environmentalscienceengineeringesed: ['esed', 'cese', 'environmental', 'environmentalsciences', 'environmentalscienceengineering'],
+  industrialdesigncenter: ['idc', 'industrialdesigncentre', 'industrialdesigncentreidc', 'industrialdesign', 'artdesign', 'design'],
+  industrialengineeringoperationsresearch: ['ieor', 'operationsresearch']
+};
+
+const formatQsRank = (deptName, rank) => {
+  if (!rank) return null;
+  const k = dkey(deptName);
+  if (k.includes('earth') || k.includes('idc') || k.includes('industrialdesign') || rank === 125) return '101–150';
+  if (k.includes('bio') || rank === 275) return '251–300';
+  return String(rank);
 };
 
 const aliasFull = (x) => Object.keys(ALIAS).find((f) => f === x || ALIAS[f].includes(x)) || x;
@@ -60,8 +76,10 @@ export function DepartmentList() {
   const groups = useMemo(() => {
     const m = new Map();
     for (const p of all) {
-      const d = (p.Department || '').trim();
+      let d = (p.Department || '').trim();
       if (!d || d.length > 80) continue;
+      if (d === 'Chemistry') d = 'Department of Chemistry';
+      if (d === 'Social Science') d = 'Department of Humanities and Social Sciences';
       if (!m.has(d)) m.set(d, []);
       m.get(d).push(p);
     }
@@ -142,6 +160,7 @@ export function DepartmentDetail() {
     impact && { label: impact.publications != null ? 'Crossref citations' : 'Total citations', value: fmt(impact.citations) },
     volume && { label: 'Publications', value: fmt(volume.publications) },
     (volume?.h_index || hvsq?.h_index) && { label: 'h-index', value: fmt(volume?.h_index || hvsq?.h_index) },
+    hvsq?.qs_ranking && { label: 'QS subject rank', value: formatQsRank(canonical, hvsq.qs_ranking) },
     funding && { label: 'Funding share', value: `${funding.percentage}%` }
   ].filter(Boolean);
 
@@ -155,7 +174,7 @@ export function DepartmentDetail() {
     },
     faculty && { Measure: 'Average citations per faculty', Value: fmt(faculty.average_citations_per_faculty), Source: 'Faculty averages' },
     volume && { Measure: 'Publications / h-index', Value: `${fmt(volume.publications)} / ${fmt(volume.h_index)}`, Source: 'Volume vs voice' },
-    hvsq && { Measure: 'QS rank / h-index', Value: `${fmt(hvsq.qs_ranking)} / ${fmt(hvsq.h_index)}`, Source: 'H-index vs QS' },
+    hvsq && { Measure: 'QS rank / h-index', Value: `${formatQsRank(canonical, hvsq.qs_ranking)} / ${fmt(hvsq.h_index)}`, Source: 'QS World Subject Rankings 2026' },
     funding && { Measure: 'Share of funded research', Value: `${funding.percentage}%`, Source: 'Funding' },
     hcmp && { Measure: `h-index vs peers (IITB ${hcmp['IIT Bombay']}, IITD ${hcmp['IIT Delhi']}, IISc ${hcmp['IISc']})`, Value: String(hcmp['IIT Bombay']), Source: 'H-index comparison' }
   ].filter(Boolean);

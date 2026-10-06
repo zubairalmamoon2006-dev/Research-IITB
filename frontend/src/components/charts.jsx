@@ -314,6 +314,23 @@ export function ComboChart({ labels, barData, lineData, barLabel = 'Publications
           ...baseOptions,
           interaction: { mode: 'index', intersect: false },
           ...pickHandlers(labels, onPick),
+          plugins: {
+            ...baseOptions.plugins,
+            tooltip: {
+              ...baseOptions.plugins.tooltip,
+              callbacks: {
+                label: (context) => {
+                  const lbl = context.dataset.label || '';
+                  const raw = context.raw;
+                  if (barReverse && context.datasetIndex === 0) {
+                    if (raw === 125) return `${lbl}: 101–150`;
+                    if (raw === 275) return `${lbl}: 251–300`;
+                  }
+                  return `${lbl}: ${num(raw)}`;
+                }
+              }
+            }
+          },
           scales: {
             x: { grid: { display: false }, ticks: { font: { size: 10.5 }, maxRotation: 60, autoSkip: false } },
             y: barScale,

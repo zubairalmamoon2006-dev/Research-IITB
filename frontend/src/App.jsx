@@ -27,8 +27,8 @@ const NAV = [
   { to: '/topics', label: 'Topics' },
   { to: '/collaborations', label: 'Collaborations' },
   { to: '/funding', label: 'Funding' },
-  { to: '/professors', label: 'Professors', featured: true },
-  { to: '/departments', label: 'Departments', featured: true },
+  { to: '/professors', label: 'Professors' },
+  { to: '/departments', label: 'Departments' },
   { to: '/timeline', label: 'Timeline' },
   { to: '/about', label: 'About' }
 ];
