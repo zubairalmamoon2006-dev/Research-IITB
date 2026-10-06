@@ -492,7 +492,7 @@ class ReportDoc {
     d.text('IIT BOMBAY  \u00B7  RESEARCH PORTAL  \u00B7  FULL REPORT', M.l, 16);
     d.setFontSize(30);
     d.setTextColor(255, 255, 255);
-    const title = sanitize(meta.title || 'RESEARCH @ IITB');
+    const title = sanitize(meta.title || 'Research @ IITB');
     d.text(d.splitTextToSize(title, W), M.l, 34);
 
     let y = 68;
@@ -651,7 +651,7 @@ class ReportDoc {
       d.setFont(FONT, 'normal');
       d.setFontSize(7.6);
       d.setTextColor(...MUTED);
-      d.text(sanitize(`${meta.title || 'RESEARCH @ IITB'}  \u00B7  full report`), M.l, PAGE_H - 9);
+      d.text(sanitize(`${meta.title || 'Research @ IITB'}  \u00B7  full report`), M.l, PAGE_H - 9);
       d.setFont(FONT, 'bold');
       d.setTextColor(...NAVY);
       const right = `${i} / ${n}`;
@@ -887,9 +887,9 @@ export function buildReportPdf(report) {
 
 export function downloadReportPdf(report) {
   const doc = buildReportPdf(report);
-  const base = String((report && report.meta && report.meta.title) || 'RESEARCH-at-IITB')
+  const base = String((report && report.meta && report.meta.title) || 'Research-at-IITB')
     .replace(/[^a-zA-Z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
-  doc.save(`${base || 'RESEARCH-at-IITB'}-full-report.pdf`);
+  doc.save(`${base || 'Research-at-IITB'}-full-report.pdf`);
   return doc;
 }

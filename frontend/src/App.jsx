@@ -5,6 +5,7 @@ import { asset } from './lib/paths';
 import { downloadReportPdf } from './lib/pdfReport';
 import { setChartTheme } from './components/charts';
 import SearchOverlay from './components/SearchOverlay';
+import { PageIntro, Callout } from './components/ui';
 import Dashboard from './pages/Dashboard';
 import Impact from './pages/Impact';
 import Excellence from './pages/Excellence';
@@ -31,6 +32,23 @@ const NAV = [
   { to: '/timeline', label: 'Timeline' },
   { to: '/about', label: 'About' }
 ];
+
+// Professors page is switched off while the data is refreshed.
+// Change this to true to bring the page back.
+const PROFESSORS_ENABLED = false;
+
+function ProfessorsUpdating() {
+  return (
+    <>
+      <PageIntro title="Professor research database." accent="Back soon." eyebrow="Directory">
+        This section is temporarily unavailable.
+      </PageIntro>
+      <Callout>
+        <strong>Data is being updated.</strong> Please check back shortly.
+      </Callout>
+    </>
+  );
+}
 
 export default function App() {
   const { loading, error, reload, isAdmin, report } = useReport();
@@ -220,7 +238,7 @@ export default function App() {
           <Route path="/topics" element={<Topics />} />
           <Route path="/collaborations" element={<Collaborations />} />
           <Route path="/funding" element={<Funding />} />
-          <Route path="/professors" element={<Professors />} />
+          <Route path="/professors" element={PROFESSORS_ENABLED ? <Professors /> : <ProfessorsUpdating />} />
           <Route path="/departments" element={<DepartmentList />} />
           <Route path="/department/:name" element={<DepartmentDetail />} />
           <Route path="/timeline" element={<Timeline />} />
