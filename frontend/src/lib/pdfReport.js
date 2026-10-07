@@ -748,7 +748,7 @@ function renderProfessorSample(rd, all) {
     rd.y += st;
     rd.set('normal', 7.4, MUTED);
     const rest = sanitize(
-      [p.Department, p.Topic, p.Research_Interest].filter(Boolean).join('  \u00B7  ')
+      [p.Department, p.Expertise, p.Research_Interest].filter(Boolean).join('  \u00B7  ')
     );
     rd.doc.text(rd.clip(rest, W - 4), M.l, rd.y + 2.8);
     rd.y += st + 1.6;
@@ -771,7 +771,7 @@ function renderSection(rd, key, fallbackTitle) {
     return;
   }
 
-  /* the roster is 711 people: print a readable cross-department sample
+  /* the roster is large: print a readable cross-department sample
      instead of an unreadable 8-column table, and point to the full database */
   if (key === 'professor_research_interest_database' && Array.isArray(sec.professors)) {
     if (sec.description) {

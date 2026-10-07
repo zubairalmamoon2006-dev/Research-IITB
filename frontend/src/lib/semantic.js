@@ -3,13 +3,13 @@
 // Degrades to keyword-only search whenever the model, the network, or the
 // embeddings are unavailable — keyword search never depends on this module.
 
-import { asset } from './paths';
+import { asset } from './paths.js';
 
 const MODEL = 'Xenova/all-MiniLM-L6-v2';
 const EMB_URL = asset('/data/professor-embeddings.json');
 
 export function embedText(p) {
-  return [p.Name, p.Department, p.Topic, p.Research_Interest].filter(Boolean).join(' | ');
+  return [p.Name, p.Department, p.Expertise, p.Research_Interest].filter(Boolean).join(' | ');
 }
 
 // FNV-1a hash over the exact texts the embeddings were generated from.
@@ -19,7 +19,7 @@ export function embedText(p) {
 export function fingerprint(profs) {
   let h = 0x811c9dc5;
   for (const p of profs || []) {
-    const s = String(p.Expert_ID || p.Name || '') + '\u0000' + embedText(p) + '\n';
+    const s = String(p.Name || '') + '\u0000' + embedText(p) + '\n';
     for (let i = 0; i < s.length; i++) {
       h ^= s.charCodeAt(i);
       h = Math.imul(h, 0x01000193);

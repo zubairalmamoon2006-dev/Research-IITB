@@ -122,7 +122,7 @@ export default function SearchOverlay({ open, onClose }) {
               <div className="search-overlay-label">Professors</div>
               {profHits.map((p) => (
                 <button
-                  key={p.Expert_ID || p.Name}
+                  key={p.Name}
                   type="button"
                   className="search-hit"
                   onClick={() => go(`/professors?q=${encodeURIComponent(p.Name)}`)}

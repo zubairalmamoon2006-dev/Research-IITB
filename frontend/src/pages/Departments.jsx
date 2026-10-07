@@ -45,7 +45,7 @@ const aliasFull = (x) => Object.keys(ALIAS).find((f) => f === x || ALIAS[f].incl
 const hasAlias = (k, ik) => aliasFull(k) === aliasFull(ik);
 
 const splitTopics = (p) =>
-  String(p.Topic || '')
+  String(p.Expertise || '')
     .split(/[,;|]/)
     .map((t) => t.trim())
     .filter(Boolean);
@@ -222,13 +222,13 @@ export function DepartmentDetail() {
                   <tr>
                     <th>Name</th>
                     <th>Designation</th>
-                    <th>Topic</th>
+                    <th>Expertise</th>
                     <th>Research interest</th>
                   </tr>
                 </thead>
                 <tbody>
                   {people.slice(0, 15).map((p) => (
-                    <tr key={p.Expert_ID || p.Name}>
+                    <tr key={p.Name}>
                       <td>
                         {p.Profile_URL ? (
                           <a className="prof-link" href={p.Profile_URL} target="_blank" rel="noreferrer">
@@ -239,7 +239,7 @@ export function DepartmentDetail() {
                         )}
                       </td>
                       <td>{p.Designation}</td>
-                      <td>{p.Topic}</td>
+                      <td>{p.Expertise}</td>
                       <td style={{ maxWidth: 340 }}>{p.Research_Interest}</td>
                     </tr>
                   ))}

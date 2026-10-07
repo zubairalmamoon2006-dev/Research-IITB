@@ -32,6 +32,13 @@ const save = (key, val) => {
   }
 };
 
+// Display labels for the data keys used in report.json.
+const LABELS = {
+  Research_Interest: 'Research Interest',
+  Scopus_ID: 'Scopus ID'
+};
+const labelOf = (h) => LABELS[h] || h;
+
 export default function Professors() {
   const { report } = useReport();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -108,7 +115,7 @@ export default function Professors() {
   useEffect(() => save(STAR_KEY, [...starred]), [starred]);
   useEffect(() => save(CMP_KEY, [...compare]), [compare]);
 
-  const keyOf = (p) => String(p.Expert_ID || p.Name || '');
+  const keyOf = (p) => String(p.Name || '');
 
   const toggleStar = (p) => {
     const k = keyOf(p);
@@ -168,9 +175,9 @@ export default function Professors() {
   };
 
   const exportCsv = () => {
-    const cols = db?.headers || ['Name', 'Designation', 'Topic', 'Research_Interest', 'Department'];
+    const cols = db?.headers || ['Name', 'Designation', 'Department', 'Expertise', 'Research_Interest'];
     const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
-    const csv = [cols.map(esc).join(',')]
+    const csv = [cols.map((h) => esc(labelOf(h))).join(',')]
       .concat(professors.map((p) => cols.map((h) => esc(p[h])).join(',')))
       .join('\r\n');
     const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
@@ -183,7 +190,7 @@ export default function Professors() {
 
   if (!report) return null;
 
-  const headers = db?.headers || ['Name', 'Designation', 'Topic', 'Research_Interest', 'Department'];
+  const headers = db?.headers || ['Name', 'Designation', 'Department', 'Expertise', 'Research_Interest'];
   const totalPages = Math.max(1, Math.ceil(professors.length / PAGE_SIZE));
   const current = Math.min(page, totalPages);
   const rows = professors.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);
@@ -195,7 +202,7 @@ export default function Professors() {
     <>
       <PageIntro title="Professor research database." accent="Find expertise fast." eyebrow="Directory · IRINS · iitb.irins.org">
         {db?.description} - {fmt(all.length)} professors, {departments.length - 1} departments. Search by
-        topic, name or keyword, filter by department/designation, star ★ professors you want to shortlist,
+        expertise, name or keyword, filter by department/designation, star ★ professors you want to shortlist,
         and click a linked name to open their Vidwan profile. For the complete list, visit{' '}
         <a href={`https://${db?.website || 'iitb.irins.org'}`} target="_blank" rel="noreferrer">
           {db?.website || 'iitb.irins.org'}
@@ -221,7 +228,7 @@ export default function Professors() {
           <div className="search-input-wrap">
             <input
               type="search"
-              placeholder="Search topic, professor, department… (e.g. chemistry, climate, Kishore)"
+              placeholder="Search expertise, professor, department… (e.g. chemistry, climate, Kishore)"
               value={q}
               onChange={(e) => setQ(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && rememberQuery()}
@@ -294,7 +301,7 @@ export default function Professors() {
                   <th className="star-col" aria-label="Compare" />
                   <th className="star-col" aria-label="Star" />
                   {headers.map((h) => (
-                    <th key={h}>{h}</th>
+                    <th key={h}>{labelOf(h)}</th>
                   ))}
                 </tr>
               </thead>
@@ -327,21 +334,25 @@ export default function Professors() {
                           ★
                         </button>
                       </td>
-                      {headers.map((h) => (
-                        <td key={h} style={h === 'Research_Interest' ? { minWidth: 260 } : undefined}>
-                          {h === 'Name' ? (
-                            p.Profile_URL ? (
-                              <a className="prof-link" href={p.Profile_URL} target="_blank" rel="noreferrer" title="Open Vidwan profile">
-                                <strong>{p[h]}</strong>
-                              </a>
-                            ) : (
-                              <strong>{p[h]}</strong>
-                            )
-                          ) : (
-                            p[h] ?? ''
-                          )}
-                        </td>
-                      ))}
+                  {headers.map((h) => (
+                    <td key={h} style={h === 'Research_Interest' ? { minWidth: 260 } : undefined}>
+                      {h === 'Name' ? (
+                        p.Profile_URL ? (
+                          <a className="prof-link" href={p.Profile_URL} target="_blank" rel="noreferrer" title="Open Vidwan profile">
+                            <strong>{p[h]}</strong>
+                          </a>
+                        ) : (
+                          <strong>{p[h]}</strong>
+                        )
+                      ) : h === 'ORCID' && p.ORCID ? (
+                        <a className="prof-link" href={`https://orcid.org/${p.ORCID}`} target="_blank" rel="noreferrer">
+                          {p.ORCID}
+                        </a>
+                      ) : (
+                        p[h] ?? ''
+                      )}
+                    </td>
+                  ))}
                     </tr>
                   );
                 })}
@@ -422,7 +433,7 @@ export default function Professors() {
                 <tbody>
                   {headers.map((h) => (
                     <tr key={h}>
-                      <td className="cmp-field">{h}</td>
+                      <td className="cmp-field">{labelOf(h)}</td>
                       {compareList.map((p) => (
                         <td key={keyOf(p)}>
                           {h === 'Name' && p.Profile_URL ? (
@@ -430,7 +441,7 @@ export default function Professors() {
                               <strong>{p[h]}</strong>
                             </a>
                           ) : (
-                            p[h] ?? '-'
+                            p[h] || '-'
                           )}
                         </td>
                       ))}

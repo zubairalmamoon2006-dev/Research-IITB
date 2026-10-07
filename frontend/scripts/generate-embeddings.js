@@ -28,7 +28,7 @@ async function main() {
     const vecs = out.tolist();
     batch.forEach((p, j) => {
       embeddings.push({
-        id: String(p.Expert_ID || p.Name || ''),
+        id: String(p.Name || ''),
         name: p.Name,
         vector: vecs[j].map((v) => Number(v.toFixed(5)))
       });

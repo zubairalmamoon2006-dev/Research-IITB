@@ -35,7 +35,7 @@ const NAV = [
 
 // Professors page is switched off while the data is refreshed.
 // Change this to true to bring the page back.
-const PROFESSORS_ENABLED = false;
+const PROFESSORS_ENABLED = true;
 
 function ProfessorsUpdating() {
   return (

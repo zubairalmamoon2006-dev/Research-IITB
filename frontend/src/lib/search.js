@@ -10,7 +10,7 @@ export const stem = (w) =>
 
 export const WEIGHTED = [
   ['Name', 10],
-  ['Topic', 7],
+  ['Expertise', 7],
   ['Research_Interest', 5],
   ['Department', 4],
   ['Designation', 3]
@@ -202,7 +202,7 @@ export function scoreEntries(entries, qTokens, rawQuery = '') {
         }
 
         if (matchedExact) {
-          const boost = f.key === 'Name' ? 12 : f.key === 'Topic' ? 8 : f.w * 3;
+          const boost = f.key === 'Name' ? 12 : f.key === 'Expertise' ? 8 : f.w * 3;
           exactScore += boost;
         }
         if (bestTokenFuzzy > 0) {
@@ -213,12 +213,12 @@ export function scoreEntries(entries, qTokens, rawQuery = '') {
       }
 
       for (const st of semanticTokens) {
-        if (f.tokens.includes(st) && (f.key === 'Research_Interest' || f.key === 'Topic' || f.key === 'Department')) {
+        if (f.tokens.includes(st) && (f.key === 'Research_Interest' || f.key === 'Expertise' || f.key === 'Department')) {
           semanticScore += f.key === 'Research_Interest' ? 3 : 2;
         }
       }
       for (const [qt, s] of expByQt) {
-        if (f.key !== 'Research_Interest' && f.key !== 'Topic' && f.key !== 'Department') continue;
+        if (f.key !== 'Research_Interest' && f.key !== 'Expertise' && f.key !== 'Department') continue;
         for (const st of s) {
           if (f.tokens.includes(st)) {
             covered.add(qt);
@@ -278,13 +278,13 @@ export function fuseWithSemanticRRF(keywordRanked, semanticMatches, candidates, 
   const pool = candidates && candidates.length ? candidates : (keywordRanked || []).map((x) => x.e);
   const byId = new Map();
   for (const e of pool) {
-    const id = String(e.p.Expert_ID || e.p.Name || '');
+    const id = String(e.p.Name || '');
     if (!byId.has(id)) byId.set(id, e.p);
   }
   const scores = new Map();
   const bump = (id, rank) => scores.set(id, (scores.get(id) || 0) + 1 / (k + rank + 1));
   (keywordRanked || []).forEach((x, rank) => {
-    const id = String(x.e.p.Expert_ID || x.e.p.Name || '');
+    const id = String(x.e.p.Name || '');
     if (byId.has(id)) bump(id, rank);
   });
   (semanticMatches || []).forEach((m, rank) => {

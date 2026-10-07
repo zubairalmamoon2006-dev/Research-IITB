@@ -178,12 +178,23 @@ app.post('/api/report/reset', requireAdmin, async (req, res) => {
 // Serve frontend build if present
 const frontendBuild = path.join(__dirname, '..', 'frontend', 'dist');
 if (fs.existsSync(frontendBuild)) {
-  app.use(express.static(frontendBuild));
-  // Same build, also mounted under the base path for sub-path hosting.
-  if (BASE_PATH !== '/') app.use(BASE_PATH, express.static(frontendBuild));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(frontendBuild, 'index.html'));
-  });
+  if (BASE_PATH === '/') {
+    app.use(express.static(frontendBuild));
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(frontendBuild, 'index.html'));
+    });
+  } else {
+    // Sub-path hosting: the build's asset URLs are prefixed with BASE_PATH, so a
+    // copy at the domain root would load HTML with broken assets. Only mount it
+    // under the base path and answer everything else with 404.
+    app.use(BASE_PATH, express.static(frontendBuild));
+    app.get([BASE_PATH, `${BASE_PATH}/*`], (req, res) => {
+      res.sendFile(path.join(frontendBuild, 'index.html'));
+    });
+    app.use((req, res) => {
+      res.status(404).send('Not found');
+    });
+  }
 }
 
 app.listen(PORT, () => {
